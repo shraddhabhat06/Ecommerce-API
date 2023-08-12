@@ -27,22 +27,33 @@ module.exports.create = function(req, res){
 }
 
 // function to delete a product using it's ID
-module.exports.delete = function(req, res){
-    Product.deleteOne(
-        {_id: req.params.productID},
-        function(err){
-            if(err){
-                res.send(err);
-            }else{
-                res.send({
-                    message: "Product deleted"
-                });
-            }
-        });
-}
+// module.exports.delete = function(req, res){
+//     Product.deleteOne(
+//         {_id: req.params.productID},
+//         function(err){
+//             if(err){
+//                 res.send(err);
+//             }else{
+//                 res.send({
+//                     message: "Product deleted"
+//                 });
+//             }
+//         });
+// }
+module.exports.delete = async function(req, res){
+    console.log("productID " , req.params.productID)
+    try{
+    await Product.deleteOne({_id: req.params.productID});
+    res.send({
+    message: "Product deleted"
+    });
+    }catch(err){
+    res.send(err);
+    }
+    };
 
 // function to update a product's quantity
-module.exports.updateQunatity = function(req, res){
+module.exports.updateQuantity = function(req, res){
     const ID = req.params.productID;
     // find the product using id
     Product.findById(ID, function(err, found){
